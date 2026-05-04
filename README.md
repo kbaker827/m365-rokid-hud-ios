@@ -23,7 +23,7 @@ Converted from the Android original. Replaces the Rust FFI native library with a
   - Remaining range (km)
   - Error code
 - **Alerts**: Configurable speed-limit and low-battery warnings.
-- **Glasses HUD**: TCP server on port 8086 streams JSON telemetry lines to connected Rokid glasses.
+- **Glasses HUD**: Bluetooth/RokidSDK sends JSON telemetry lines to connected Rokid glasses.
 - **Imperial/metric toggle**.
 
 ## Android → iOS mapping
@@ -33,7 +33,7 @@ Converted from the Android original. Replaces the Rust FFI native library with a
 | `M365Native` (Rust FFI `ninebot_ffi`) | `NinebotProtocol` (pure Swift frame builder/parser) |
 | `BleManager` (Android BluetoothGatt) | `M365BleManager` (CoreBluetooth) |
 | `ScooterRepository` | `HudViewModel` |
-| `WifiGatewayServer` | `GlassesServer` (NWListener TCP :8086) |
+| `WifiGatewayServer` | `GlassesServer` (RokidSDK) |
 | `DashboardScreen` | `DashboardView` + `ScanView` |
 
 ## Protocol note
@@ -51,7 +51,7 @@ Service UUIDs:
 - Write TX: `6E400002-B5A3-F393-E0A9-E50E24DCCA9E`
 - Notify RX:`6E400003-B5A3-F393-E0A9-E50E24DCCA9E`
 
-## Glasses protocol (TCP :8086)
+## Data sent to the glasses
 
 ```json
 {"type":"telemetry","speedKmh":18.4,"batteryPercent":62,"tempCelsius":31.0,"tripMeters":4200,"totalKm":1842.3,"remainingKm":22.5,"errorCode":0}
@@ -81,7 +81,7 @@ The only thing left for each app is filling in the three credential constants (`
 
 ## Setup
 
-1. Open `M365HUD.xcodeproj` in Xcode 15+.
+1. Open `M365HUD.xcworkspace` in Xcode 15+ (after running `pod install`) 15+.
 2. Set your team in Signing & Capabilities.
 3. Build and run on an iPhone (iOS 17+).
 4. Allow Bluetooth permission when prompted.
